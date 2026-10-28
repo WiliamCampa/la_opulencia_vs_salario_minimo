@@ -1,0 +1,1 @@
+# la_opulencia_vs_salario_minimo
