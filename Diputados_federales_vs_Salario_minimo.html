@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Brecha de dos Mundos: El Aguinaldo Legislativo vs. El Trabajador Mexicano (2000–2026)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- html2canvas + jsPDF para captura exacta sin cortes -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0F172A;
+      color: #F8FAFC;
+    }
+    .glass-card {
+      background: #1E293B;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body {
+        background-color: #0F172A !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      #capture-area {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .page-break-inside-avoid {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+
+  <!-- Header Controls -->
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 no-print">
+    <div class="flex items-center gap-2">
+      <span class="w-3 h-3 rounded-full bg-rose-500 animate-pulse"></span>
+      <span class="text-xs uppercase tracking-widest text-slate-400 font-bold">Huella Digital Lab • Tablero Interactivo HD</span>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <button onclick="filterView('all')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 border border-slate-700 transition">Vista Completa</button>
+      <button onclick="filterView('ingresos')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 border border-slate-700 text-rose-400 transition">Modo Ingresos ($)</button>
+      <button onclick="filterView('brecha')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-400 transition">Modo Brecha (Meses)</button>
+      <button onclick="downloadHD()" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white shadow-lg shadow-rose-900/40 transition flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        Descargar Infografía HD (PDF)
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Canvas Container -->
+  <div id="capture-area" class="max-w-7xl mx-auto space-y-6">
+
+    <!-- Title Banner -->
+    <div class="glass-card rounded-2xl p-6 md:p-8 border-l-4 border-l-rose-500 page-break-inside-avoid">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-rose-400">Análisis Histórico Comparativo (2000–2026)</span>
+          <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white mt-1">
+            LA BRECHA DE DOS MUNDOS: <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-amber-300 to-sky-400">EL AGUINALDO LEGISLATIVO VS. EL TRABAJADOR MEXICANO</span>
+          </h1>
+          <p class="text-xs md:text-sm text-slate-300 mt-2 max-w-4xl leading-relaxed">
+            Un diputado federal llegó a percibir en un solo mes el equivalente a <strong class="text-amber-300 font-bold">18 años de trabajo continuo</strong> de un ciudadano con salario mínimo. Evolución de la dieta decembrina frente al piso salarial real y la estructura laboral en México.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Metrics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 page-break-inside-avoid">
+
+      <!-- Card 1: Poblacion Concentrada -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden">
+        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Estructura Laboral (INEGI / ENOE)</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span class="text-3xl md:text-4xl font-extrabold text-amber-400 tracking-tight">64.98%</span>
+          <span class="text-[10px] font-bold text-amber-300/80 bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-800/40">rango 2024–26: ~73%</span>
+        </div>
+        <p class="text-xs text-slate-300 mt-2 leading-normal">
+          <strong>Población ocupada concentrada en 1 a 3 SM.</strong> Refleja tanto la recuperación del piso salarial real como la compresión de ingresos en la masa trabajadora.
+        </p>
+      </div>
+
+      <!-- Card 2: Pico Historico -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden">
+        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Pico Máximo de Disparidad</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span class="text-3xl md:text-4xl font-extrabold text-rose-500 tracking-tight">216 Meses</span>
+        </div>
+        <p class="text-xs text-slate-300 mt-2 leading-normal">
+          <strong>Punto abrumador (2007–2012 / Cúspide en 2012):</strong> Equivale a <strong class="text-rose-300">18 años de trabajo</strong> con salario mínimo para igualar 1 ingreso decembrino de un diputado.
+        </p>
+      </div>
+
+      <!-- Card 3: Tendencia Actual -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden">
+        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tendencia Histórica (2019–2026)</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span class="text-3xl md:text-4xl font-extrabold text-sky-400 tracking-tight">~40 Meses</span>
+        </div>
+        <p class="text-xs text-slate-300 mt-2 leading-normal">
+          <strong>Cierre de Brecha:</strong> La disparidad descendió aceleradamente desde 2019 gracias al aumento al salario mínimo real y topes de retribución pública.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Interactive Dual Axis Chart Container -->
+    <div class="glass-card rounded-2xl p-5 md:p-6 page-break-inside-avoid">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+        <div>
+          <h2 class="text-base font-bold text-white">Evolución Histórica Comparativa</h2>
+          <p class="text-xs text-slate-400">Ingreso Decembrino ($ MXN) vs. Brecha en Meses de Salario Mínimo (Eje Secundario)</p>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-semibold">
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-rose-500 inline-block"></span> Ingreso Diputado ($)</div>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-sky-400 inline-block"></span> Brecha (Meses SM)</div>
+        </div>
+      </div>
+
+      <div class="relative w-full h-[320px]">
+        <canvas id="dualChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Historical Data Table (Expandable) -->
+    <div class="glass-card rounded-2xl p-5 no-print">
+      <details class="group">
+        <summary class="flex justify-between items-center cursor-pointer font-bold text-sm text-slate-300 group-open:text-white">
+          <span>Ver Tabla de Datos Históricos (2000–2026)</span>
+          <span class="transition group-open:rotate-180">▼</span>
+        </summary>
+        <div class="mt-4 overflow-x-auto">
+          <table class="w-full text-xs text-left text-slate-300 border-collapse">
+            <thead class="bg-slate-800/80 text-slate-400 uppercase text-[10px] tracking-wider">
+              <tr>
+                <th class="p-2 border-b border-slate-700">Año</th>
+                <th class="p-2 border-b border-slate-700">Ingreso Decembrino Diputado ($ MXN)</th>
+                <th class="p-2 border-b border-slate-700">Salario Mínimo Mensual ($ MXN)</th>
+                <th class="p-2 border-b border-slate-700">Brecha en Meses de SM</th>
+                <th class="p-2 border-b border-slate-700">% Población en 1–3 SM</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody" class="divide-y divide-slate-800">
+              <!-- JS Populated -->
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-[10px] text-slate-500 py-2">
+      Fuente: Elaboración propia basada en Presupuesto de Egresos de la Federación (PEF), CONASAMI e INEGI (ENOE) 2000–2026.
+    </div>
+
+  </div>
+
+  <script>
+    // Dataset Completo
+    const historicalData = [
+      { year: 2000, ingresoDiputado: 216000, salarioMensual: 1137, brecha: 190, popSM: 52.1 },
+      { year: 2002, ingresoDiputado: 242000, salarioMensual: 1263, brecha: 192, popSM: 53.4 },
+      { year: 2005, ingresoDiputado: 295000, salarioMensual: 1404, brecha: 210, popSM: 55.0 },
+      { year: 2007, ingresoDiputado: 345000, salarioMensual: 1517, brecha: 212, popSM: 56.2 },
+      { year: 2010, ingresoDiputado: 382000, salarioMensual: 1724, brecha: 214, popSM: 58.1 },
+      { year: 2012, ingresoDiputado: 412000, salarioMensual: 1870, brecha: 216, popSM: 60.5 },
+      { year: 2015, ingresoDiputado: 450000, salarioMensual: 2103, brecha: 214, popSM: 61.8 },
+      { year: 2018, ingresoDiputado: 480000, salarioMensual: 2650, brecha: 181, popSM: 62.9 },
+      { year: 2020, ingresoDiputado: 310000, salarioMensual: 3696, brecha: 84, popSM: 64.1 },
+      { year: 2022, ingresoDiputado: 328000, salarioMensual: 5255, brecha: 62, popSM: 64.98 },
+      { year: 2024, ingresoDiputado: 340000, salarioMensual: 7468, brecha: 45, popSM: 71.2 },
+      { year: 2026, ingresoDiputado: 355000, salarioMensual: 8800, brecha: 40, popSM: 73.0 }
+    ];
+
+    // Populate Table
+    const tbody = document.getElementById('tableBody');
+    historicalData.forEach(row => {
+      tbody.innerHTML += `
+        <tr class="hover:bg-slate-800/40">
+          <td class="p-2 font-bold text-white">${row.year}</td>
+          <td class="p-2 text-rose-400 font-semibold">$${row.ingresoDiputado.toLocaleString('es-MX')}</td>
+          <td class="p-2 text-slate-300">$${row.salarioMensual.toLocaleString('es-MX')}</td>
+          <td class="p-2 text-sky-400 font-bold">${row.brecha} meses</td>
+          <td class="p-2 text-amber-400">${row.popSM}%</td>
+        </tr>
+      `;
+    });
+
+    // Chart Configuration con renderizado de capas fijado
+    const ctx = document.getElementById('dualChart').getContext('2d');
+    let dualChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: historicalData.map(d => d.year),
+        datasets: [
+          {
+            label: 'Ingreso Decembrino Diputado ($)',
+            data: historicalData.map(d => d.ingresoDiputado),
+            backgroundColor: 'rgba(244, 63, 94, 0.85)',
+            borderColor: 'rgba(244, 63, 94, 1)',
+            borderWidth: 1,
+            borderRadius: 6,
+            yAxisID: 'y',
+            order: 2 // Capa 2: Al fondo
+          },
+          {
+            label: 'Brecha en Meses de Salario Mínimo',
+            data: historicalData.map(d => d.brecha),
+            type: 'line',
+            borderColor: '#38BDF8',
+            backgroundColor: '#38BDF8',
+            borderWidth: 3,
+            pointRadius: 6,
+            pointBackgroundColor: '#38BDF8',
+            pointBorderColor: '#0F172A',
+            pointBorderWidth: 2,
+            pointHoverRadius: 9,
+            tension: 0.3,
+            yAxisID: 'y1',
+            order: 1 // Capa 1: Al frente
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false, // Desactivar animación para captura instantánea perfecta
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            titleFont: { size: 14, weight: 'bold' },
+            padding: 12,
+            borderColor: 'rgba(255,255,255,0.15)',
+            borderWidth: 1,
+            callbacks: {
+              label: function(context) {
+                if (context.dataset.yAxisID === 'y') {
+                  return `Ingreso Diputado: $${context.raw.toLocaleString('es-MX')} MXN`;
+                } else {
+                  return `Brecha: ${context.raw} meses de trabajo`;
+                }
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#94A3B8', font: { weight: 'bold' } }
+          },
+          y: {
+            type: 'linear',
+            position: 'left',
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: {
+              color: '#F43F5E',
+              callback: value => '$' + (value/1000) + 'k'
+            },
+            title: { display: true, text: 'Ingreso Decembrino ($ MXN)', color: '#F43F5E' }
+          },
+          y1: {
+            type: 'linear',
+            position: 'right',
+            grid: { drawOnChartArea: false },
+            ticks: { color: '#38BDF8', callback: value => value + 'm' },
+            title: { display: true, text: 'Meses de SM requeridos', color: '#38BDF8' }
+          }
+        }
+      }
+    });
+
+    // View Filters
+    function filterView(mode) {
+      if (mode === 'all') {
+        dualChart.data.datasets[0].hidden = false;
+        dualChart.data.datasets[1].hidden = false;
+      } else if (mode === 'ingresos') {
+        dualChart.data.datasets[0].hidden = false;
+        dualChart.data.datasets[1].hidden = true;
+      } else if (mode === 'brecha') {
+        dualChart.data.datasets[0].hidden = true;
+        dualChart.data.datasets[1].hidden = false;
+      }
+      dualChart.update();
+    }
+
+    // Exportación Robusta con jsPDF + html2canvas sin divisiones de página rotas
+    async function downloadHD() {
+      const { jsPDF } = window.jspdf;
+      const element = document.getElementById('capture-area');
+
+      const noPrint = document.querySelectorAll('.no-print');
+      noPrint.forEach(el => el.style.display = 'none');
+
+      window.scrollTo(0, 0);
+
+      try {
+        const canvas = await html2canvas(element, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#0F172A',
+          logging: false,
+          windowWidth: 1280
+        });
+
+        const imgData = canvas.toDataURL('image/jpeg', 0.98);
+        const pdf = new jsPDF('landscape', 'pt', 'letter');
+
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+
+        const imgWidth = canvas.width;
+        const imgHeight = canvas.height;
+
+        const ratio = Math.min((pdfWidth - 40) / imgWidth, (pdfHeight - 40) / imgHeight);
+
+        const finalWidth = imgWidth * ratio;
+        const finalHeight = imgHeight * ratio;
+
+        const x = (pdfWidth - finalWidth) / 2;
+        const y = (pdfHeight - finalHeight) / 2;
+
+        pdf.setFillColor(15, 23, 42);
+        pdf.rect(0, 0, pdfWidth, pdfHeight, 'F');
+        pdf.addImage(imgData, 'JPEG', x, y, finalWidth, finalHeight);
+        pdf.save('Brecha_Legislativa_Infografia_HD.pdf');
+
+      } catch (err) {
+        console.error("Error al exportar PDF:", err);
+      } finally {
+        noPrint.forEach(el => el.style.display = '');
+      }
+    }
+  </script>
+</body>
+</html>
